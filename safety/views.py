@@ -23,7 +23,7 @@ def index(request):
     geolocator = Nominatim(user_agent="geoapiExercises")
     # 30.367519
     # 76.381088
-    location = geolocator.reverse(str(30.367519)+","+str(76.381088))
+    location = geolocator.reverse(str(geolocator[0])+","+str(geolocator[1]))
     print(location[0])
     placelst = []
 
@@ -97,37 +97,38 @@ def policestation(request):
 
     g = geocoder.ip('me')
 
-    # API_KEY = "AIzaSyCNLxPxFmG3kfrALBUkRFb_R5UdemVnqqQ"
+    API_KEY = ""
 
-    # google_places = GooglePlaces(API_KEY)
+    google_places = GooglePlaces(API_KEY)
 
-    # g = geocoder.ip('me')
-    # print(g.latlng)
-    # geolocator = Nominatim(user_agent="geoapiExercises")
-    # # 30.367519
-    # # 76.381088
+    g = geocoder.ip('me')
+    print(g.latlng)
+    geolocator = Nominatim(user_agent="geoapiExercises")
+    # 30.367519
+    # 76.381088
 
-    # query_result = google_places.nearby_search(
-    #     # lat_lng ={'lat': 46.1667, 'lng': -1.15},
-    #     lat_lng={'lat': #g.latlng[0] 30.367519, #g.latlng[1]'lng': 76.381088},
-    #     radius=5000,
+    query_result = google_places.nearby_search(
+        # lat_lng ={'lat': 46.1667, 'lng': -1.15},
+        lat_lng={'lat': g.latlng[0], 'lng': g.latlng[1]},
+        radius=5000,
 
-    #     types=[types.TYPE_POLICE])
+        types=[types.TYPE_POLICE])
 
-    # # If any attributions related
-    # # with search results print them
-    # if query_result.has_attributions:
-    #     print(query_result.html_attributions)
+    # If any attributions related
+    # with search results print them
+    if query_result.has_attributions:
+        print(query_result.html_attributions)
 
-    # # Iterate over the search results
-    # for place in query_result.places:
-    #     print(place)
-    #     # place.get_details()
-    #     print(place.name)
-    #     print("Latitude", place.geo_location['lat'])
-    #     print("Longitude", place.geo_location['lng'])
-    #     print()
-    df = pd.read_csv("safety\policestation.csv")
+    # Iterate over the search results
+    for place in query_result.places:
+        print(place)
+        # place.get_details()
+        print(place.name)
+        print("Latitude", place.geo_location['lat'])
+        print("Longitude", place.geo_location['lng'])
+        print()
+    #df = pd.read_csv("safety\policestation.csv")
+    df=geo_location
     print(df["Police Station"][0])
     plcstation1_address = df["Police Station"][0]
     plcstation1_latitude = df["lat"][0]
